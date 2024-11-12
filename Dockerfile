@@ -31,6 +31,9 @@ WORKDIR /app
 # Copy project files
 COPY . .
 
+# Copy env file for build process
+COPY .env.example .env
+
 # Create SQLite database
 RUN mkdir -p database && \
     touch database/database.sqlite && \
