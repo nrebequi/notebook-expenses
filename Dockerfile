@@ -31,9 +31,6 @@ WORKDIR /app
 # Copy project files
 COPY . .
 
-# Create .env from example
-COPY .env.example .env
-
 # Create SQLite database
 RUN mkdir -p database && \
     touch database/database.sqlite && \
@@ -44,22 +41,15 @@ RUN composer install --optimize-autoloader --no-dev && \
     npm install && \
     npm run build
 
-# Set permissions
-RUN chown -R www-data:www-data /app \
-    && chmod -R 775 /app/storage \
-    && chmod -R 775 /app/bootstrap/cache
-
-# Create necessary directories
+# Set permissions and create directories
 RUN mkdir -p storage/framework/{sessions,views,cache} \
     && mkdir -p storage/logs \
-    && touch storage/logs/laravel.log
-
-# Generate key and optimize
-RUN php artisan key:generate && \
-    php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache
+    && touch storage/logs/laravel.log \
+    && chown -R www-data:www-data /app \
+    && chmod -R 775 /app/storage \
+    && chmod -R 775 /app/bootstrap/cache \
+    && chmod +x start.sh
 
 EXPOSE 8000
 
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+CMD ["./start.sh"]
