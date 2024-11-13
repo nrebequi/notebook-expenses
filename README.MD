@@ -18,8 +18,11 @@ gcloud builds submit \
   --region=us-west2 \
   --tag us-west2-docker.pkg.dev/PROJECT_ID/notebook-expenses/quickstart-image:tag1
 ```
+
 as is:
+```bash
 gcloud builds submit --region=us-west2 --tag us-west2-docker.pkg.dev/ft-demo-441517/notebook-expenses/quickstart-image:tag1
+```
 
 ## Technology Stack
 
