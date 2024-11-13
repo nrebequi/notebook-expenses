@@ -31,7 +31,7 @@ WORKDIR /app
 # Copy project files
 COPY . .
 
-# Copy env file for build process
+# Copy env file
 COPY .env.example .env
 
 # Create SQLite database
@@ -53,6 +53,7 @@ RUN mkdir -p storage/framework/{sessions,views,cache} \
     && chmod -R 775 /app/bootstrap/cache \
     && chmod +x start.sh
 
-EXPOSE 8000
+# Important: Cloud Run injects the PORT environment variable
+ENV PORT=8080
 
 CMD ["./start.sh"]
